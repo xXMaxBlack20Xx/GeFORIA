@@ -14,8 +14,8 @@
   la aplicación sin conocimientos de programación.
 - Exclusión de entornos, cachés, bases personales, respaldos y temporales de Git.
 - Regresiones de arranque, navegación, respaldos y lanzadores; validación Windows
-  automatizada definida en GitHub Actions. Resultados y límites, sin equiparar
-  revisión de BAT con ejecución, en `docs/VALIDACION.md`.
+  ejecutada satisfactoriamente en GitHub Actions con Python 3.12 y 3.14,
+  incluidos BAT e interfaz reales. Resultados y límites en `docs/VALIDACION.md`.
 
 ## 3.0.0
 
