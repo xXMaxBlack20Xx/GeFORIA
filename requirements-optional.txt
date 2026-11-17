@@ -1,0 +1,2 @@
+# Solo para el filtrado exploratorio alternativo (no necesario para la UI).
+scipy>=1.10,<2

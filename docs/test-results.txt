@@ -1,0 +1,49 @@
+test_complete_capture_freezes_and_retains_30_seconds (test_core.AcquisitionTests.test_complete_capture_freezes_and_retains_30_seconds) ... ok
+test_duplicate_save_prevented (test_core.AcquisitionTests.test_duplicate_save_prevented) ... ok
+test_invalid_final_bpm_does_not_reuse_previous_value (test_core.AcquisitionTests.test_invalid_final_bpm_does_not_reuse_previous_value) ... ok
+test_invalid_quality_is_preserved (test_core.AcquisitionTests.test_invalid_quality_is_preserved) ... ok
+test_new_session_clears_previous_result (test_core.AcquisitionTests.test_new_session_clears_previous_result) ... ok
+test_partial_capture_has_pending_quality (test_core.AcquisitionTests.test_partial_capture_has_pending_quality) ... ok
+test_start_requires_connection (test_core.AcquisitionTests.test_start_requires_connection) ... ok
+test_timestamp_reset_drops_old_samples (test_core.AcquisitionTests.test_timestamp_reset_drops_old_samples) ... ok
+test_filter_preserves_shape_and_inputs (test_core.FilterTests.test_filter_preserves_shape_and_inputs) ... ok
+test_short_or_invalid_times (test_core.FilterTests.test_short_or_invalid_times) ... ok
+test_beats_indices (test_core.ProtocolTests.test_beats_indices) ... ok
+test_fragmented_messages (test_core.ProtocolTests.test_fragmented_messages) ... ok
+test_info (test_core.ProtocolTests.test_info) ... ok
+test_invalid_messages (test_core.ProtocolTests.test_invalid_messages) ... ok
+test_oversized_frame_recovers (test_core.ProtocolTests.test_oversized_frame_recovers) ... ok
+test_result_quality_and_indices (test_core.ProtocolTests.test_result_quality_and_indices) ... ok
+test_sample_units_and_nonfinite_derivative (test_core.ProtocolTests.test_sample_units_and_nonfinite_derivative) ... ok
+test_cannot_overwrite_other_code (test_core.StorageTests.test_cannot_overwrite_other_code) ... ok
+test_compressed_signal_round_trip (test_core.StorageTests.test_compressed_signal_round_trip) ... ok
+test_consultation_round_trip (test_core.StorageTests.test_consultation_round_trip) ... ok
+test_delete_profile_includes_consultations (test_core.StorageTests.test_delete_profile_includes_consultations) ... ok
+test_delete_study_keeps_profile (test_core.StorageTests.test_delete_study_keeps_profile) ... ok
+test_empty_consultation_is_rejected (test_core.StorageTests.test_empty_consultation_is_rejected) ... ok
+test_foreign_keys_are_enabled (test_core.StorageTests.test_foreign_keys_are_enabled) ... ok
+test_legacy_database_migration_backup_and_idempotence (test_core.StorageTests.test_legacy_database_migration_backup_and_idempotence) ... ok
+test_legacy_profile_can_be_activated (test_core.StorageTests.test_legacy_profile_can_be_activated) ... ok
+test_malformed_signal_cannot_create_partial_row (test_core.StorageTests.test_malformed_signal_cannot_create_partial_row) ... ok
+test_profile_round_trip_and_active_id (test_core.StorageTests.test_profile_round_trip_and_active_id) ... ok
+test_update_keeps_studies_and_legacy_columns (test_core.StorageTests.test_update_keeps_studies_and_legacy_columns) ... ok
+test_age_boundaries_and_integer (test_core.ValidationTests.test_age_boundaries_and_integer) ... ok
+test_blood_pressure_relationship (test_core.ValidationTests.test_blood_pressure_relationship) ... ok
+test_decimal_comma (test_core.ValidationTests.test_decimal_comma) ... ok
+test_id_is_fixed (test_core.ValidationTests.test_id_is_fixed) ... ok
+test_minimum_profile (test_core.ValidationTests.test_minimum_profile) ... ok
+test_non_finite_numbers_rejected (test_core.ValidationTests.test_non_finite_numbers_rejected) ... ok
+test_required_errors_identify_fields (test_core.ValidationTests.test_required_errors_identify_fields) ... ok
+test_single_optional_pressure_preserved (test_core.ValidationTests.test_single_optional_pressure_preserved) ... ok
+test_step_validation (test_core.ValidationTests.test_step_validation) ... ok
+test_demo_can_stream_and_disconnect_without_hardware (test_services.ServiceIntegrationTests.test_demo_can_stream_and_disconnect_without_hardware) ... ok
+test_missing_dependency_is_a_readable_event (test_services.ServiceIntegrationTests.test_missing_dependency_is_a_readable_event) ... ok
+test_numeric_zero_age_is_preserved (test_services.ServiceIntegrationTests.test_numeric_zero_age_is_preserved) ... ok
+test_reconnect_cannot_overlap_old_worker (test_services.ServiceIntegrationTests.test_reconnect_cannot_overlap_old_worker) ... ok
+test_serial_worker_commands_fragments_result_and_shutdown (test_services.ServiceIntegrationTests.test_serial_worker_commands_fragments_result_and_shutdown) ... ok
+setUpClass (test_ui.UserFlowTests) ... skipped 'No hay pantalla gráfica accesible: couldn\'t connect to display ":0"'
+
+----------------------------------------------------------------------
+Ran 43 tests in 0.088s
+
+OK (skipped=1)

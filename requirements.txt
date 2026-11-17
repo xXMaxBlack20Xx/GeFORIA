@@ -1,0 +1,3 @@
+# Única dependencia para comunicación USB / Bluetooth SPP.
+# Tkinter forma parte de Python y en Linux puede requerir un paquete del sistema.
+pyserial>=3.5,<4
