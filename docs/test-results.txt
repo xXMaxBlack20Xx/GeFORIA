@@ -58,6 +58,7 @@ test_first_setup_reuse_and_demo_forward_arguments_from_other_directory (test_win
 test_incomplete_download_keeps_readable_guidance (test_windows_batch.WindowsBatchTests.test_incomplete_download_keeps_readable_guidance) ... skipped 'Requiere cmd.exe y Python de Windows'
 test_interrupted_setup_can_retry_after_installation_error (test_windows_batch.WindowsBatchTests.test_interrupted_setup_can_retry_after_installation_error) ... skipped 'Requiere cmd.exe y Python de Windows'
 test_missing_python_keeps_readable_guidance (test_windows_batch.WindowsBatchTests.test_missing_python_keeps_readable_guidance) ... skipped 'Requiere cmd.exe y Python de Windows'
+test_real_demo_interface_opens_all_pages_and_closes_through_launcher (test_windows_batch.WindowsBatchTests.test_real_demo_interface_opens_all_pages_and_closes_through_launcher) ... skipped 'Requiere cmd.exe y Python de Windows'
 test_changed_requirements_trigger_new_preparation (test_windows_launcher.WindowsPreparationTests.test_changed_requirements_trigger_new_preparation) ... ok
 test_corrupt_marker_can_be_retried (test_windows_launcher.WindowsPreparationTests.test_corrupt_marker_can_be_retried) ... ok
 test_failed_install_is_not_marked_ready_and_next_attempt_succeeds (test_windows_launcher.WindowsPreparationTests.test_failed_install_is_not_marked_ready_and_next_attempt_succeeds) ... ok
@@ -70,6 +71,6 @@ test_setup_failure_explains_retry_without_deleting_data (test_windows_launcher.W
 test_tk_failure_does_not_mark_preparation_ready (test_windows_launcher.WindowsPreparationTests.test_tk_failure_does_not_mark_preparation_ready) ... ok
 
 ----------------------------------------------------------------------
-Ran 70 tests in 10.800s
+Ran 71 tests in 10.749s
 
-OK (skipped=4)
+OK (skipped=5)

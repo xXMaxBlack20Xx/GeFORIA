@@ -44,7 +44,9 @@ class WindowsBatchTests(unittest.TestCase):
     def test_first_setup_reuse_and_demo_forward_arguments_from_other_directory(self):
         result = self.launch(arguments='--help')
         executable, args = self.application_result(result)
-        self.assertEqual(Path(executable), self.project / '.venv-windows' / 'Scripts' / 'python.exe')
+        expected_python = self.project / '.venv-windows' / 'Scripts' / 'python.exe'
+        # Windows puede representar el mismo archivo con un alias 8.3 (RUNNER~1).
+        self.assertTrue(Path(executable).samefile(expected_python))
         self.assertEqual(args, ['--help'])
         self.assertTrue(self.ready.is_file())
         stamp = self.ready.stat().st_mtime_ns
@@ -55,6 +57,52 @@ class WindowsBatchTests(unittest.TestCase):
         self.assertNotIn('Preparando GeFORIA', result.stdout)
         self.assertEqual(self.ready.stat().st_mtime_ns, stamp)
         self.assertFalse(data.exists())  # El main de esta prueba solo registra argumentos.
+
+    def test_real_demo_interface_opens_all_pages_and_closes_through_launcher(self):
+        shutil.copytree(PROJECT / 'geforia', self.project / 'geforia', dirs_exist_ok=True,
+                        ignore=shutil.ignore_patterns('__pycache__'))
+        shutil.copy2(PROJECT / 'main.py', self.project / 'real_entry.py')
+        # La entrada real y los widgets no se simulan: solo se programa la verificación
+        # y el cierre para no dejar una ventana esperando interacción en el runner.
+        (self.project / 'main.py').write_text(
+            'import geforia.app, real_entry\n'
+            'errors = []\n'
+            'class CheckedApp(geforia.app.App):\n'
+            '    def __init__(self, *args, **kwargs):\n'
+            '        super().__init__(*args, **kwargs)\n'
+            '        self.index = 0\n'
+            '        self.after(500, self.check_window)\n'
+            '    def report_callback_exception(self, *args):\n'
+            '        import traceback\n'
+            '        traceback.print_exception(*args)\n'
+            '        errors.append(str(args[1]))\n'
+            '        self.quit()\n'
+            '    def check_window(self):\n'
+            '        if not (self.winfo_viewable()\n'
+            '                and all(button.winfo_viewable() for button in self.nav.values())\n'
+            '                and self.pages[self.current_page].winfo_viewable()):\n'
+            '            self.after(25, self.check_window)\n'
+            '            return\n'
+            '        print("REAL_WINDOW_VISIBLE", self.current_page, flush=True)\n'
+            '        if self.index < 2:\n'
+            '            self.show(("measurement", "history")[self.index])\n'
+            '            self.index += 1\n'
+            '            self.after(250, self.check_window)\n'
+            '        else:\n'
+            '            self.close()\n'
+            '            assert self.closing\n'
+            '            print("REAL_WINDOW_CLOSED", flush=True)\n'
+            'geforia.app.App = CheckedApp\n'
+            'raise SystemExit(real_entry.main() or bool(errors))\n',
+            encoding='utf-8')
+        data = self.folder / 'datos interfaz real'
+        result = self.launch('iniciar_demo.bat', f'--data-dir "{data}"')
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        for page in ('profile', 'measurement', 'history'):
+            self.assertIn(f'REAL_WINDOW_VISIBLE {page}', result.stdout)
+        self.assertIn('REAL_WINDOW_CLOSED', result.stdout)
+        self.assertTrue((data / 'demo' / 'registros.sqlite3').is_file())
+        self.assertFalse((data / 'registros.sqlite3').exists())
 
     def test_interrupted_setup_can_retry_after_installation_error(self):
         (self.project / 'requirements.txt').write_text('esto no es un requisito ???\n')

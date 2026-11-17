@@ -5,7 +5,7 @@
 - Remoto verificado: `https://github.com/xXMaxBlack20Xx/GeFORIA.git`, rama `main`.
   Repositorio público, comprobado tanto por la API como sin iniciar sesión.
   No se modificaron los permisos de acceso.
-- Revalidación en Fedora: **70 pruebas, 66 satisfactorias y 4 omitidas** porque
+- Revalidación en Fedora: **71 pruebas, 66 satisfactorias y 5 omitidas** porque
   requieren `cmd.exe` y Python de Windows. Las ocho pruebas de widgets reales y
   la regresión de arranque normal/demo sí se ejecutaron.
 - Diez pruebas de preparación Windows: instalación inicial, reutilización,
@@ -22,16 +22,22 @@
   La preparación escribe su marca únicamente después de comprobar el entorno.
   Nunca se borra una base ni se usa el entorno `.venv` de Fedora.
 
-### Windows nativo: pendiente en este punto
+### Windows nativo: primera ejecución y corrección de la prueba
 
-El equipo local es Fedora, no Windows. No se presenta la revisión del BAT como
-prueba de que abre la aplicación en Windows. Se añadió
-`.github/workflows/windows.yml` para ejecutarlo en `windows-latest` con Python
-3.12 y 3.14: exige una ventana Tk visible, verifica el manifiesto y ejecuta
-las pruebas de widgets y las pruebas reales de `cmd.exe`, incluidas instalación,
-reutilización, rutas con espacios y reintento después de fallar.
+El equipo local es Fedora. La primera ejecución nativa en GitHub Actions
+([registro](https://github.com/xXMaxBlack20Xx/GeFORIA/actions/runs/44035752893))
+mostró las ventanas y pasó las ocho pruebas de widgets en Windows con Python
+3.12 y 3.14. La suite detectó una comparación incorrecta de la prueba del BAT:
+`RUNNER~1` y `runneradmin` representaban el mismo archivo con rutas distintas.
+Se corrigió utilizando identidad de archivo (`samefile`), sin eliminar la
+comprobación de que se utiliza el intérprete del entorno.
 
-El resultado real de esa ejecución se registrará después de la publicación.
+El workflow `.github/workflows/windows.yml` exige una ventana Tk visible,
+verifica el manifiesto y ejecuta los BAT con `cmd.exe`: instalación, reutilización,
+rutas con espacios y `!`, recuperación tras un error y apertura de la interfaz
+real a través de `iniciar_demo.bat`, con navegación y cierre programados.
+La primera ejecución no se presenta como una suite satisfactoria: la ejecución
+completa de la corrección está pendiente de registrarse.
 Todavía no se acredita el doble clic en un equipo Windows de un usuario final
 ni la adquisición con un ESP32 físico.
 
