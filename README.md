@@ -11,6 +11,80 @@ Necesitas **Python 3.10 o superior con Tkinter**, una sesión gráfica y, para
 conectar el ESP32, `pyserial`. Extrae todo el ZIP y abre una terminal dentro de
 la carpeta `GeFORIA` que contiene `main.py`.
 
+### Windows: abrir con doble clic
+
+Sigue **[GUIA_WINDOWS.md](GUIA_WINDOWS.md)**: explica la descarga, extracción e
+instalación de Python paso a paso, sin necesitar conocimientos de programación.
+
+1. [Descarga el ZIP de main](https://github.com/xXMaxBlack20Xx/GeFORIA/archive/refs/heads/main.zip)
+   y **extrae todo** su contenido.
+2. Instala Python 3.10 o posterior con Tkinter desde
+   [python.org](https://www.python.org/downloads/windows/).
+3. Haz doble clic en **`iniciar_geforia.bat`**.
+   Para probar sin sensor, abre **`iniciar_demo.bat`**.
+
+La primera preparación requiere Internet para crear `.venv-windows` e instalar
+los complementos. Las siguientes aperturas reutilizan ese entorno; si una
+preparación falla, el siguiente intento la reanuda. Los errores permanecen
+visibles. No hacen falta permisos de administrador ni activar un entorno
+manualmente. El entorno de Fedora `.venv` se conserva por separado.
+
+Los dos BAT aceptan argumentos, por ejemplo desde PowerShell:
+
+```powershell
+.\iniciar_demo.bat --data-dir "$env:TEMP\GeFORIA prueba"
+```
+
+La demo muestra datos ficticios. La medición real exige el ESP32 con su sensor
+y firmware compatible; el firmware no se incluye ni se instala con el lanzador.
+
+### Fedora Linux
+
+Preparación inicial (si los paquetes ya están instalados, no hay que reinstalarlos):
+
+```bash
+sudo dnf install python3 python3-pip python3-tkinter
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+```
+
+Desde una terminal de tu sesión de escritorio, abre la aplicación con:
+
+```bash
+./iniciar_geforia.sh
+```
+
+El lanzador utiliza `.venv/bin/python`, no requiere activar el entorno y acepta
+los mismos argumentos que `main.py`. También funciona desde otra carpeta:
+
+```bash
+/ruta/a/GeFORIA/iniciar_geforia.sh --demo
+```
+
+Si al extraer el ZIP se perdió el permiso de ejecución, usa
+`chmod +x iniciar_geforia.sh` o `bash iniciar_geforia.sh`. **No ejecutes GeFORIA
+con `sudo`**. Para comprobar Tkinter con el intérprete correcto:
+
+```bash
+.venv/bin/python -m tkinter
+```
+
+Debe aparecer una ventana. Tkinter se instala con `dnf`, no con `pip`; para un
+Python distinto del incluido en Fedora necesitas el soporte Tk de ese intérprete.
+Una conexión SSH sin acceso a la pantalla no basta.
+
+Para probar sin utilizar tu carpeta personal de datos:
+
+```bash
+./iniciar_geforia.sh --demo --data-dir "$(mktemp -d -t geforia-prueba.XXXXXX)"
+```
+
+La demostración guardará sus datos ficticios en `demo/` dentro de esa carpeta
+temporal. Un `--data-dir` relativo se interpreta desde la carpeta donde invoques
+el lanzador.
+
+### Otros sistemas
+
 Linux / macOS:
 
 ```bash
@@ -18,14 +92,6 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 python main.py
-```
-
-Windows (PowerShell):
-
-```powershell
-py -3 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe main.py
 ```
 
 Si tu distribución de Linux no incluye Tkinter, instala su paquete de soporte
@@ -122,6 +188,10 @@ ventana mínima aproximada de 960 × 680 según la pantalla disponible.
 | Ruta | Responsabilidad |
 | --- | --- |
 | `main.py` | Entrada, argumentos y mensajes de arranque. |
+| `iniciar_geforia.bat` / `iniciar_demo.bat` | Doble clic en Windows, preparación y modo demo. |
+| `iniciar_geforia.sh` | Lanzador para el entorno de Fedora/Linux. |
+| `GUIA_WINDOWS.md` | Guía de descarga, instalación y uso para principiantes. |
+| `geforia/windows_launcher.py` | Entorno Windows independiente, comprobaciones y reintento de preparación. |
 | `geforia/app.py` | Composición de servicios, navegación y ciclo de vida de la ventana. |
 | `geforia/config.py` | Configuración y constantes. |
 | `geforia/models.py` | Perfil y captura inmutables. |
@@ -135,17 +205,31 @@ ventana mínima aproximada de 960 × 680 según la pantalla disponible.
 ## Pruebas
 
 ```bash
-python -m unittest discover -s tests -v
+.venv/bin/python -m unittest discover -s tests -v
+```
+
+En Windows, después de la primera preparación:
+
+```powershell
+.\.venv-windows\Scripts\python.exe -m unittest discover -s tests -v
 ```
 
 La suite usa únicamente `unittest`. Las pruebas de widgets se omiten
-explícitamente cuando no hay pantalla gráfica accesible. Consulta
+explícitamente cuando no hay pantalla gráfica accesible. La regresión de
+arranque abre la ventana en modo normal y demo, recorre las tres secciones,
+redimensiona y cierra; tiene un límite de tiempo para detectar bloqueos de Tk.
+Las pruebas específicas de BAT solo se ejecutan en Windows; su omisión en Linux
+no acredita que el lanzador funcione en Windows. Consulta
 [docs/VALIDACION.md](docs/VALIDACION.md) para conocer qué se ejecutó durante
 esta entrega y qué requiere el equipo real.
 
 ## Solución de problemas
 
-- **No abre una ventana:** comprueba Tkinter y ejecuta desde una sesión gráfica.
+- **Windows:** consulta primero [GUIA_WINDOWS.md](GUIA_WINDOWS.md#si-algo-no-funciona).
+- **Fedora, no abre una ventana:** ejecuta `./iniciar_geforia.sh` desde una terminal para
+  ver el error y comprueba `.venv/bin/python -m tkinter`. Esta versión corrige
+  un ciclo de redimensionado de las ayudas del formulario que podía bloquear Tk
+  antes de mostrar la ventana; no se soluciona borrando los datos.
 - **No encuentra puertos:** instala `requirements.txt`, conecta el dispositivo y
   revisa en el sistema operativo que el puerto exista y tengas acceso.
 - **Puerto ocupado:** cierra el monitor serie u otra instancia que use el ESP32.

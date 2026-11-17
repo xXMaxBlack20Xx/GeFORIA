@@ -43,13 +43,20 @@ class UserFlowTests(unittest.TestCase):
     def test_window_builds_all_pages(self):
         self.assertEqual(set(self.app.pages), {'profile', 'measurement', 'history'})
         self.assertEqual(self.app.current_page, 'profile')
+        self.assertTrue(self.app.winfo_viewable())
 
     def test_draft_survives_navigation(self):
         self.fill_basics()
-        self.app.show('history')
-        self.app.show('profile')
-        self.assertEqual(self.app.profile_page.vars['nombre'].get(), 'Persona de prueba')
-        self.assertTrue(self.app.profile_page.dirty)
+        page = self.app.profile_page
+        page.vars['peso'].set('72,5')
+        page.notes.insert('1.0', 'Borrador ficticio con notas')
+        draft = page.values()
+        for key in ('measurement', 'history', 'profile'):
+            self.app.nav[key].invoke()
+            self.app.update()
+            self.assertTrue(self.app.pages[key].winfo_viewable())
+        self.assertEqual(page.values(), draft)
+        self.assertTrue(page.dirty)
 
     def test_invalid_field_prevents_advancing(self):
         page = self.app.profile_page

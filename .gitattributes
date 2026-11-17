@@ -1,0 +1,4 @@
+# Mismas sumas SHA-256 en Linux, Windows y el ZIP de GitHub.
+* text=auto eol=lf
+# Conservar los CRLF reales de los BAT también dentro del ZIP (sin conversión Git).
+*.bat -text whitespace=cr-at-eol

@@ -1,0 +1,37 @@
+# Entornos locales (Linux/macOS y Windows).
+.venv/
+.venv-windows/
+venv/
+env/
+
+# Cachés, registros y archivos temporales.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.log
+*.tmp
+*.temp
+*.bak
+*~
+.DS_Store
+Thumbs.db
+/tmp/
+/temp/
+/build/
+/dist/
+*.egg-info/
+
+# Nunca entregar expedientes, señales ni respaldos personales.
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+backups/
+respaldos/
+/data/
+/datos/
+/demo/

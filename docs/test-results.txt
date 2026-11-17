@@ -15,6 +15,7 @@ test_invalid_messages (test_core.ProtocolTests.test_invalid_messages) ... ok
 test_oversized_frame_recovers (test_core.ProtocolTests.test_oversized_frame_recovers) ... ok
 test_result_quality_and_indices (test_core.ProtocolTests.test_result_quality_and_indices) ... ok
 test_sample_units_and_nonfinite_derivative (test_core.ProtocolTests.test_sample_units_and_nonfinite_derivative) ... ok
+test_backup_closes_destination_connection (test_core.StorageTests.test_backup_closes_destination_connection) ... ok
 test_cannot_overwrite_other_code (test_core.StorageTests.test_cannot_overwrite_other_code) ... ok
 test_compressed_signal_round_trip (test_core.StorageTests.test_compressed_signal_round_trip) ... ok
 test_consultation_round_trip (test_core.StorageTests.test_consultation_round_trip) ... ok
@@ -36,14 +37,39 @@ test_non_finite_numbers_rejected (test_core.ValidationTests.test_non_finite_numb
 test_required_errors_identify_fields (test_core.ValidationTests.test_required_errors_identify_fields) ... ok
 test_single_optional_pressure_preserved (test_core.ValidationTests.test_single_optional_pressure_preserved) ... ok
 test_step_validation (test_core.ValidationTests.test_step_validation) ... ok
+test_missing_environment_explains_how_to_prepare_it (test_launcher.LauncherTests.test_missing_environment_explains_how_to_prepare_it) ... ok
+test_missing_project_reports_main_file (test_launcher.LauncherTests.test_missing_project_reports_main_file) ... ok
+test_uses_project_python_and_forwards_arguments_from_another_directory (test_launcher.LauncherTests.test_uses_project_python_and_forwards_arguments_from_another_directory) ... ok
 test_demo_can_stream_and_disconnect_without_hardware (test_services.ServiceIntegrationTests.test_demo_can_stream_and_disconnect_without_hardware) ... ok
 test_missing_dependency_is_a_readable_event (test_services.ServiceIntegrationTests.test_missing_dependency_is_a_readable_event) ... ok
 test_numeric_zero_age_is_preserved (test_services.ServiceIntegrationTests.test_numeric_zero_age_is_preserved) ... ok
 test_reconnect_cannot_overlap_old_worker (test_services.ServiceIntegrationTests.test_reconnect_cannot_overlap_old_worker) ... ok
 test_serial_worker_commands_fragments_result_and_shutdown (test_services.ServiceIntegrationTests.test_serial_worker_commands_fragments_result_and_shutdown) ... ok
-setUpClass (test_ui.UserFlowTests) ... skipped 'No hay pantalla gráfica accesible: couldn\'t connect to display ":0"'
+test_cli_maps_window_and_keeps_event_loop_responsive (test_startup.StartupTests.test_cli_maps_window_and_keeps_event_loop_responsive) ... ok
+test_cancel_update_keeps_both_draft_and_original (test_ui.UserFlowTests.test_cancel_update_keeps_both_draft_and_original) ... ok
+test_completed_study_saves_and_opens_signal (test_ui.UserFlowTests.test_completed_study_saves_and_opens_signal) ... ok
+test_consultation_save_appears_in_history (test_ui.UserFlowTests.test_consultation_save_appears_in_history) ... ok
+test_draft_survives_navigation (test_ui.UserFlowTests.test_draft_survives_navigation) ... ok
+test_invalid_field_prevents_advancing (test_ui.UserFlowTests.test_invalid_field_prevents_advancing) ... ok
+test_minimum_save_locks_code_and_clears_dirty (test_ui.UserFlowTests.test_minimum_save_locks_code_and_clears_dirty) ... ok
+test_optional_fields_and_review_keep_values (test_ui.UserFlowTests.test_optional_fields_and_review_keep_values) ... ok
+test_window_builds_all_pages (test_ui.UserFlowTests.test_window_builds_all_pages) ... ok
+test_first_setup_reuse_and_demo_forward_arguments_from_other_directory (test_windows_batch.WindowsBatchTests.test_first_setup_reuse_and_demo_forward_arguments_from_other_directory) ... skipped 'Requiere cmd.exe y Python de Windows'
+test_incomplete_download_keeps_readable_guidance (test_windows_batch.WindowsBatchTests.test_incomplete_download_keeps_readable_guidance) ... skipped 'Requiere cmd.exe y Python de Windows'
+test_interrupted_setup_can_retry_after_installation_error (test_windows_batch.WindowsBatchTests.test_interrupted_setup_can_retry_after_installation_error) ... skipped 'Requiere cmd.exe y Python de Windows'
+test_missing_python_keeps_readable_guidance (test_windows_batch.WindowsBatchTests.test_missing_python_keeps_readable_guidance) ... skipped 'Requiere cmd.exe y Python de Windows'
+test_changed_requirements_trigger_new_preparation (test_windows_launcher.WindowsPreparationTests.test_changed_requirements_trigger_new_preparation) ... ok
+test_corrupt_marker_can_be_retried (test_windows_launcher.WindowsPreparationTests.test_corrupt_marker_can_be_retried) ... ok
+test_failed_install_is_not_marked_ready_and_next_attempt_succeeds (test_windows_launcher.WindowsPreparationTests.test_failed_install_is_not_marked_ready_and_next_attempt_succeeds) ... ok
+test_first_preparation_installs_then_reuses_environment (test_windows_launcher.WindowsPreparationTests.test_first_preparation_installs_then_reuses_environment) ... ok
+test_incomplete_environment_is_repaired_without_clearing_files (test_windows_launcher.WindowsPreparationTests.test_incomplete_environment_is_repaired_without_clearing_files) ... ok
+test_main_preserves_arguments_and_application_exit_code (test_windows_launcher.WindowsPreparationTests.test_main_preserves_arguments_and_application_exit_code) ... ok
+test_missing_dependency_invalidates_a_previously_ready_environment (test_windows_launcher.WindowsPreparationTests.test_missing_dependency_invalidates_a_previously_ready_environment) ... ok
+test_missing_pip_uses_ensurepip (test_windows_launcher.WindowsPreparationTests.test_missing_pip_uses_ensurepip) ... ok
+test_setup_failure_explains_retry_without_deleting_data (test_windows_launcher.WindowsPreparationTests.test_setup_failure_explains_retry_without_deleting_data) ... ok
+test_tk_failure_does_not_mark_preparation_ready (test_windows_launcher.WindowsPreparationTests.test_tk_failure_does_not_mark_preparation_ready) ... ok
 
 ----------------------------------------------------------------------
-Ran 43 tests in 0.088s
+Ran 70 tests in 10.800s
 
-OK (skipped=1)
+OK (skipped=4)

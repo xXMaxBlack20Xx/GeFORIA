@@ -48,7 +48,9 @@ class ScrollFrame(ttk.Frame):
         self.canvas = tk.Canvas(self, background=theme.SURFACE, highlightthickness=0, takefocus=False)
         scrollbar = ttk.Scrollbar(self, orient='vertical', command=self.canvas.yview)
         self.content = ttk.Frame(self.canvas, style='Card.TFrame', padding=20)
-        self.window = self.canvas.create_window((0, 0), window=self.content, anchor='nw')
+        # El ancho depende del viewport, no del texto que se ajusta a ese ancho.
+        # También debe estar fijado antes del primer <Configure> del canvas.
+        self.window = self.canvas.create_window((0, 0), window=self.content, anchor='nw', width=1)
         self.canvas.configure(yscrollcommand=scrollbar.set)
         scrollbar.pack(side='right', fill='y')
         self.canvas.pack(side='left', fill='both', expand=True)
@@ -120,7 +122,7 @@ class FormField(ttk.Frame):
         if help_text:
             self.help = label(self, help_text, 'CardMuted.TLabel', wraplength=380, font=(theme.FONT, 9))
             self.help.pack(anchor='w', pady=(5, 0))
-            self.bind('<Configure>', lambda e: self.help.configure(wraplength=max(120, e.width)), add='+')
+            # label() ya ajusta wraplength: otro ajuste aquí crea un ciclo de geometría.
         self.error = label(self, '', 'Error.TLabel', wraplength=380)
         self.error.pack(anchor='w', pady=(3, 0))
 

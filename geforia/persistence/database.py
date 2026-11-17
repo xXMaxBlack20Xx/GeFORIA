@@ -1,4 +1,5 @@
 """Repositorio SQLite. Conserva tablas, columnas y señales comprimidas heredadas."""
+from contextlib import closing
 import json
 import math
 import sqlite3
@@ -192,7 +193,7 @@ class Database:
         folder.mkdir(exist_ok=True)
         suffix = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
         target = folder / f'registros_antes_v3_{suffix}.sqlite3'
-        with sqlite3.connect(target) as dest:
+        with closing(sqlite3.connect(target)) as dest:
             self.conn.backup(dest)
 
     def active_id(self):
@@ -227,6 +228,5 @@ class Database:
     def backup(self, destination):
         if self.path is not None and Path(destination).resolve() == self.path.resolve():
             raise ValueError('Elige un archivo distinto de la base activa.')
-        with sqlite3.connect(destination) as target:
+        with closing(sqlite3.connect(destination)) as target:
             self.conn.backup(target)
-

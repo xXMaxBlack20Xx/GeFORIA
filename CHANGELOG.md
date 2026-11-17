@@ -1,5 +1,22 @@
 # Cambios
 
+## 2026-11-16 · Arranque reparado y entrega para Windows
+
+- Corregido el ciclo de geometría de las ayudas de formulario que impedía
+  mostrar la ventana; ancho del canvas estabilizado antes del primer mapeo.
+- Cierre explícito de los destinos SQLite de respaldo, incluidas las migraciones.
+- Conservados el expediente, las señales y registros anteriores, el protocolo
+  del ESP32, la demo y el lanzador de Fedora `iniciar_geforia.sh`.
+- Nuevos `iniciar_geforia.bat` e `iniciar_demo.bat`: detección de Python/Tkinter,
+  entorno `.venv-windows` independiente, primera instalación con reintento y
+  reutilización sin reinstalar en cada apertura; errores visibles.
+- Nueva `GUIA_WINDOWS.md` para descargar desde GitHub, instalar Python y utilizar
+  la aplicación sin conocimientos de programación.
+- Exclusión de entornos, cachés, bases personales, respaldos y temporales de Git.
+- Regresiones de arranque, navegación, respaldos y lanzadores; validación Windows
+  automatizada definida en GitHub Actions. Resultados y límites, sin equiparar
+  revisión de BAT con ejecución, en `docs/VALIDACION.md`.
+
 ## 3.0.0
 
 ### Arquitectura
@@ -60,5 +77,6 @@
 
 - Pruebas automatizadas de reglas, datos heredados, señales y comunicación simulada.
 - Pruebas gráficas incluidas, con omisión explícita si no hay pantalla.
-- No se ha validado hardware real ni inspeccionado visualmente la ventana en
-  este entorno. Véase `docs/VALIDACION.md`.
+- En la entrega inicial no se había inspeccionado visualmente la ventana.
+  La reparación posterior sí se comprobó en Fedora. Sigue pendiente el hardware
+  real; véase el registro actualizado en `docs/VALIDACION.md`.

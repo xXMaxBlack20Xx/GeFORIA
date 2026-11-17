@@ -1,8 +1,10 @@
+from contextlib import closing
 import math
 from pathlib import Path
 import sqlite3
 import tempfile
 import unittest
+from unittest.mock import patch
 from geforia.persistence.database import Database
 from geforia.services.acquisition import AcquisitionSession
 from geforia.services.protocol import LineBuffer, parse_line
@@ -134,10 +136,20 @@ class StorageTests(unittest.TestCase):
         with self.assertRaises(sqlite3.IntegrityError):
             self.db.guardar_medicion('MISSING', 72, 'FC', '', 'USB', '', None, None, '')
 
+    def test_backup_closes_destination_connection(self):
+        target = sqlite3.connect(':memory:')
+        try:
+            with patch('geforia.persistence.database.sqlite3.connect', return_value=target):
+                self.db.backup('respaldo-de-prueba.sqlite3')
+            with self.assertRaises(sqlite3.ProgrammingError):
+                target.execute('SELECT 1')
+        finally:
+            target.close()
+
     def test_legacy_database_migration_backup_and_idempotence(self):
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / 'registros.sqlite3'
-            with sqlite3.connect(path) as old:
+            with closing(sqlite3.connect(path)) as old, old:
                 old.executescript("CREATE TABLE pacientes (id TEXT PRIMARY KEY,nombre TEXT NOT NULL,edad INTEGER NOT NULL,peso REAL,grasa REAL,medicamentos TEXT DEFAULT '',notas TEXT DEFAULT '');"
                                   "CREATE TABLE mediciones (id INTEGER PRIMARY KEY AUTOINCREMENT,paciente_id TEXT NOT NULL REFERENCES pacientes(id),fecha TEXT NOT NULL,bpm REAL,estado TEXT NOT NULL,descripcion TEXT NOT NULL,origen TEXT NOT NULL);")
                 old.execute("INSERT INTO pacientes(id,nombre,edad,grasa) VALUES('OLD','Anterior',40,21)")
@@ -148,7 +160,7 @@ class StorageTests(unittest.TestCase):
             migrated.cerrar()
             copies = list((Path(folder) / 'backups').glob('*.sqlite3'))
             self.assertEqual(len(copies), 1)
-            with sqlite3.connect(copies[0]) as backup:
+            with closing(sqlite3.connect(copies[0])) as backup:
                 self.assertEqual(backup.execute('SELECT nombre FROM pacientes').fetchone()[0], 'Anterior')
             again = Database(path)
             again.cerrar()
